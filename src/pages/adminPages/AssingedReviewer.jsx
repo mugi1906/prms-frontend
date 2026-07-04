@@ -3,7 +3,7 @@ import { ArrowLeft } from 'lucide-react';
 import api from "../../services/api";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import "../../style/project.css"
+import "../../style/Project.css"
 
 
 function AssingedReviewer() {
