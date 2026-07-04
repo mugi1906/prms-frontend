@@ -1,0 +1,483 @@
+.sidebar {
+
+
+    width:75px;
+
+
+    height:calc(100vh - 70px);
+
+
+    background:#6366f1;
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    justify-content:space-between;
+
+
+    box-shadow:
+    5px 0 25px rgba(0,0,0,.25);
+
+
+    transition:.35s ease;
+
+
+    overflow:hidden;
+
+
+}
+
+
+
+
+.sidebar.open{
+
+
+    width:250px;
+
+
+}
+
+
+
+
+
+
+.saidMenus h1{
+
+
+    color:white;
+
+
+    font-size:22px;
+
+
+    padding:15px 20px;
+
+
+    text-shadow:
+    0 3px 8px rgba(0,0,0,.3);
+
+
+}
+
+
+
+
+
+
+.menuList{
+
+
+    display:flex;
+
+
+    flex-direction:column;
+
+
+    gap:8px;
+
+
+    padding:10px;
+
+
+}
+
+
+
+
+
+
+.menuList a{
+
+
+    height:50px;
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    gap:18px;
+
+
+    padding:0 15px;
+
+
+    color:white;
+
+
+    text-decoration:none;
+
+
+    border-radius:16px;
+
+
+    font-size:15px;
+
+
+    transition:.35s ease;
+
+
+    position:relative;
+
+
+    overflow:hidden;
+
+
+}
+
+
+
+
+
+
+/* hover light animation */
+
+
+.menuList a::before{
+
+
+    content:"";
+
+
+    position:absolute;
+
+
+    left:0;
+
+
+    top:0;
+
+
+    height:100%;
+
+
+    width:0;
+
+
+    background:rgba(255,255,255,.25);
+
+
+    transition:.35s ease;
+
+
+}
+
+
+
+
+
+.menuList a:hover::before{
+
+
+    width:100%;
+
+
+}
+
+
+
+
+
+.menuList a svg{
+
+
+    min-width:22px;
+
+
+    transition:.35s ease;
+
+
+}
+
+
+
+
+
+
+.menuList a:hover svg{
+
+
+    transform:scale(1.2) rotate(5deg);
+
+
+}
+
+
+
+
+
+.menuList a:hover{
+
+
+    transform:translateX(10px);
+
+
+    box-shadow:
+    0 8px 20px rgba(0,0,0,.2);
+
+
+}
+
+
+
+
+
+
+
+
+/* ===================
+      LOGOUT
+=================== */
+
+
+.logoutBtn{
+
+
+    padding:20px;
+
+
+}
+
+
+
+
+
+.logOutBtn{
+
+
+    width:100%;
+
+
+    height:45px;
+
+
+    border:none;
+
+
+    border-radius:14px;
+
+
+    cursor:pointer;
+
+
+    display:flex;
+
+
+    align-items:center;
+
+
+    justify-content:center;
+
+
+    gap:10px;
+
+
+    font-weight:700;
+
+
+    color:white;
+
+
+    background:
+
+    linear-gradient(
+        135deg,
+        #ef4444,
+        #b91c1c
+    );
+
+
+
+    box-shadow:
+
+    0 8px 20px rgba(239,68,68,.4);
+
+
+
+    transition:.35s ease;
+
+
+    white-space:nowrap;
+
+
+}
+
+
+
+
+
+.logOutBtn:hover{
+
+
+    transform:translateY(-5px);
+
+
+    box-shadow:
+
+    0 15px 30px rgba(239,68,68,.5);
+
+
+}
+
+
+
+
+
+
+
+/* ===================
+   CLOSED SIDEBAR
+=================== */
+
+
+
+.sidebar:not(.open) .logoutBtn{
+
+
+    padding:20px 15px;
+
+
+}
+
+
+
+
+
+.sidebar:not(.open) .logOutBtn{
+
+
+    width:45px;
+
+
+    padding:0;
+
+
+    overflow:hidden;
+
+
+}
+
+
+
+
+
+.sidebar:not(.open) .logOutBtn span{
+
+
+    display:flex;
+
+
+}
+
+
+
+
+
+.sidebar:not(.open) .logOutBtn{
+
+
+    font-size:0;
+
+
+}
+
+
+
+
+
+
+
+/* ===================
+      MOBILE
+=================== */
+
+
+@media(max-width:768px){
+
+
+.sidebar{
+
+
+    position:absolute;
+
+
+    top:0;
+
+
+    left:0;
+
+
+    z-index:2000;
+
+
+    width:250px;
+
+
+    height:calc(100vh - 60px);
+
+
+    transform:translateX(-100%);
+
+
+    transition:.35s ease;
+
+
+}
+
+
+
+
+
+.sidebar.open{
+
+
+    transform:translateX(0);
+
+
+    width:250px;
+
+
+}
+
+
+
+
+
+.sidebar.open .menuList a{
+
+
+    justify-content:flex-start;
+
+
+}
+
+
+
+
+
+
+/* mobile logout */
+
+
+.sidebar.open .logOutBtn{
+
+
+    width:100%;
+
+
+    font-size:14px;
+
+
+}
+
+
+
+}

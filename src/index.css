@@ -1,0 +1,324 @@
+body{
+
+    margin:0;
+
+    font-family:Arial;
+
+}
+
+
+
+.light{
+
+    min-height:100vh;
+
+    background:white;
+
+    color:black;
+
+}
+
+
+
+.dark{
+
+    min-height:100vh;
+
+    background:#1e1e1e;
+
+    color:white;
+
+}
+
+/* =========================
+   DARK THEME
+========================= */
+
+
+.dark{
+
+    background:#111827;
+    color:white;
+
+}
+
+
+
+/* dashboard */
+
+.dark .dashboard h1,
+.dark .table-page h1,
+.dark .settings-page h1{
+
+    color:white;
+
+}
+
+
+.dark .dash-card,
+.dark .settings-card,
+.dark .table-card,
+.dark .filter,
+.dark .profile-card,
+.dark .project-details-card,
+.dark .review-card,
+.dark .update-card,
+.dark .password-card,
+.dark .submit-card{
+
+    background:#1f2937;
+
+    color:white;
+
+}
+
+
+
+/* Card text */
+
+.dark .dash-card h3,
+.dark .settings-card p,
+.dark .settings-desc,
+.dark .profile-content p,
+.dark .info-card p{
+
+    color:#d1d5db;
+
+}
+
+
+
+.dark .dash-card p{
+
+    color:white;
+
+}
+
+
+
+/* Inputs */
+
+.dark input,
+.dark select,
+.dark textarea{
+
+
+    background:#374151;
+
+    color:white;
+
+    border:1px solid #4b5563;
+
+
+}
+
+
+
+.dark input::placeholder,
+.dark textarea::placeholder{
+
+    color:#9ca3af;
+
+}
+
+
+
+/* tables */
+
+
+.dark .table td{
+
+    color:#e5e7eb;
+
+    border-color:#374151;
+
+}
+
+
+
+.dark .table tbody tr:hover{
+
+    background:#374151;
+
+}
+
+
+
+/* table empty */
+
+
+.dark .empty-project h1{
+
+    color:white;
+
+}
+
+
+
+/* settings buttons */
+
+
+.dark .settings-card button{
+
+    background:#374151;
+
+    color:white;
+
+}
+
+
+
+.dark .settings-card button:hover{
+
+    background:#6366f1;
+
+}
+
+
+
+/* profile */
+
+
+.dark .info-card{
+
+    background:#374151;
+
+}
+
+
+
+.dark .info-card h3{
+
+    color:#a5b4fc;
+
+}
+
+
+
+/* project details */
+
+
+.dark .project-item{
+
+    background:#374151;
+
+}
+
+
+.dark .project-item p{
+
+    color:#e5e7eb;
+
+}
+
+
+
+/* review */
+
+
+.dark .review-header{
+
+    background:#4338ca;
+
+}
+
+
+.dark .review-body{
+
+    background:#1f2937;
+
+}
+
+
+
+.dark .comment-box textarea{
+
+    background:#374151;
+
+}
+
+
+
+/* notification */
+
+
+.dark .chat-item,
+.dark .message{
+
+    background:#1f2937;
+
+    color:white;
+
+}
+
+.dark .notification-title {
+    color:white;
+}
+
+
+.dark .chat-user h3,
+.dark .message p{
+
+    color:white;
+
+}
+
+
+.dark .chat-user p{
+
+    color:#d1d5db;
+
+}
+
+
+
+.dark .messages{
+
+    background:#111827;
+
+}
+
+
+
+
+/* navbar */
+
+
+.dark .nav{
+
+    background:#111827;
+
+}
+
+
+
+
+/* sidebar */
+
+
+.dark .sidebar{
+
+    background:#111827;
+
+}
+
+
+
+
+/* scrollbar */
+
+
+.dark ::-webkit-scrollbar{
+
+    width:8px;
+
+}
+
+
+.dark ::-webkit-scrollbar-thumb{
+
+    background:#6366f1;
+
+    border-radius:10px;
+
+}

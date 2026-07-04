@@ -1,0 +1,224 @@
+.settings-page{
+
+    padding:30px;
+
+}
+
+
+
+.settings-page h1{
+
+    font-size:36px;
+
+    font-weight:800;
+
+    color:#111827;
+
+    text-shadow:
+
+    0 3px 8px rgba(0,0,0,.15);
+
+}
+
+
+
+.settings-desc{
+
+    color:#6b7280;
+
+    margin-bottom:30px;
+
+}
+
+
+
+
+.settings-container{
+
+
+    display:grid;
+
+
+    gap:25px;
+
+
+    max-width:800px;
+
+
+}
+
+
+
+
+.settings-card{
+
+
+    background:white;
+
+
+    padding:25px;
+
+
+    border-radius:22px;
+
+
+    box-shadow:
+
+
+    0 15px 35px rgba(0,0,0,.12);
+
+
+}
+
+
+
+
+.card-title{
+
+
+    margin-bottom:20px;
+
+
+}
+
+
+
+.card-title h2{
+
+
+    margin:0;
+
+
+    color:#6366f1;
+
+
+}
+
+
+
+
+.card-title p{
+
+
+    color:#6b7280;
+
+
+    margin-top:8px;
+
+
+}
+
+
+
+
+
+
+
+.settings-card button{
+
+
+    width:100%;
+
+
+    text-align:left;
+
+
+    border:none;
+
+
+    background:#f8fafc;
+
+
+    padding:18px;
+
+
+    border-radius:15px;
+
+
+    margin-bottom:15px;
+
+
+    cursor:pointer;
+
+
+    transition:.3s;
+
+
+}
+
+
+
+
+
+.settings-card button:hover{
+
+
+    background:#6366f1;
+
+
+    color:white;
+
+
+    transform:translateX(8px);
+
+
+}
+
+
+
+
+
+.settings-card span{
+
+
+    display:block;
+
+
+    font-size:17px;
+
+
+    font-weight:700;
+
+
+}
+
+
+
+.settings-card small{
+
+
+    display:block;
+
+
+    margin-top:5px;
+
+
+    opacity:.7;
+
+
+}
+
+
+
+
+
+
+.danger-btn:hover{
+
+
+    background:#ef4444 !important;
+
+
+}
+
+
+
+
+
+.logout-btn:hover{
+
+
+    background:#ed1e1e !important;
+
+
+}

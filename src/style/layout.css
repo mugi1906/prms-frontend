@@ -1,0 +1,44 @@
+.layout{
+    height:100vh;
+    overflow:hidden;
+}
+.layout-body{
+    display:flex;
+    height:calc(100vh - 60px);
+}
+.content{
+    flex:1;
+    padding:20px;
+    overflow-y:auto;
+}
+
+@media(max-width:768px){
+
+
+.layout{
+
+    overflow:hidden;
+
+}
+
+
+
+.layout-body{
+
+    position:relative;
+
+}
+
+
+
+.content{
+
+    width:100%;
+
+    padding:15px;
+
+}
+
+
+
+}
