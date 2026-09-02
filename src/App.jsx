@@ -1,5 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { useState, useEffect } from "react";
+import SplashScreen from "./components/SplashScreen";
 import { Routes, Route } from "react-router-dom";
 import DeveloperDashboard from './pages/developerPages/DeveloperDashboard';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -31,6 +33,21 @@ import NotificationDetails from './pages/CommenPage/NotificationDetails';
 
 function App() {
   const theme = useSelector((state)=> state.theme.theme)
+  const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+
+        const timer = setTimeout(() => {
+            setLoading(false);
+        }, 2500);
+
+        return () => clearTimeout(timer);
+
+    }, []);
+
+    if (loading) {
+        return <SplashScreen />;
+    }
   return (
     <>
       <div className={theme}>

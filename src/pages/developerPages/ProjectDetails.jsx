@@ -7,36 +7,75 @@ import api from '../../services/api';
 import "../../style/Project.css"
 
 function ProjectDetails() {
+
     const { id } = useParams();
     const [project, setProject] = useState(null);
     const navigate = useNavigate();
-    const getProject = async (e) => {
+
+    const getProject = async () => {
+
         try {
-            const response = await api.get(`/project/singleProject/${id}`);
+
+            const guest = sessionStorage.getItem("guest");
+            const sessionId = sessionStorage.getItem("guestSessionId");
+
+            if (guest === "true" && sessionId) {
+
+                const response = await api.get(
+                    `/guest/data/${sessionId}`
+                );
+
+                const guestProject = response.data.data.projects.find(
+                    project => project._id === id
+                );
+
+                if (guestProject) {
+                    setProject(guestProject);
+                }
+
+                return;
+            }
+
+            const response = await api.get(
+                `/project/singleProject/${id}`
+            );
+
             setProject(response.data);
 
         } catch (error) {
+
             console.log(error);
+
         }
     }
+
+
     useEffect(() => {
         getProject();
-    }, []);
+    }, [id]);
+
+
     return (
+
         <div className="project-details-page">
 
             <div className="project-details-card">
 
                 <div className="project-header">
-                    <div className='project-header-child'>
-                        <button className='back-btn' onClick={() => navigate(-1)}>
-                            <ChevronLeft /> 
-                        </button>
-                        
-                        <h1>
 
+                    <div className='project-header-child'>
+
+                        <button
+                            className='back-btn'
+                            onClick={() => navigate(-1)}
+                        >
+                            <ChevronLeft />
+                        </button>
+
+                        <h1>
                             Project Details
                         </h1>
+
                     </div>
 
 
@@ -45,6 +84,7 @@ function ProjectDetails() {
                     </span>
 
                 </div>
+
 
                 <div className="project-content">
 
@@ -60,6 +100,7 @@ function ProjectDetails() {
 
                     </div>
 
+
                     <div className="project-item">
 
                         <h3>
@@ -72,6 +113,7 @@ function ProjectDetails() {
 
                     </div>
 
+
                     <div className="project-item">
 
                         <h3>
@@ -80,8 +122,8 @@ function ProjectDetails() {
 
                         <a
                             href={
-                                project?.githubUrl.startsWith("http")
-                                    ? project?.githubUrl
+                                project?.githubUrl?.startsWith("http")
+                                    ? project.githubUrl
                                     : `https://${project?.githubUrl}`
                             }
                             target="_blank"
@@ -97,7 +139,8 @@ function ProjectDetails() {
             </div>
 
         </div>
+
     )
 }
 
-export default ProjectDetails
+export default ProjectDetails;

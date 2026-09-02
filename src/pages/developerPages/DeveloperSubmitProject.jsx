@@ -26,24 +26,40 @@ function DeveloperSubmitProject() {
 
         e.preventDefault();
 
-        try {
-            if(!formData.projectName|| !formData.projectdescription || !formData.githubUrl){
-                toast.warning(
-                    "Please fill all fields",
-                    {
-                        autoClose : 2000,
-                        theme : "colored"
-                    }
-                )
-            }   
+        const guestSession = localStorage.getItem("guestSession");
 
-            const response = await api.post('/project/createProjecte', formData);
+        if (guestSession) {
+            toast.warning(
+                "Please login to create a project",
+                {
+                    autoClose: 2000,
+                    theme: "colored"
+                }
+            );
+            return;
+        }
+
+        if (
+            !formData.projectName ||
+            !formData.projectdescription ||
+            !formData.githubUrl
+        ) {
+            toast.warning("Please fill all fields", {
+                autoClose: 2000,
+                theme: "colored"
+            });
+            return;
+        }
+
+        try {
+
+            await api.post('/project/createProjecte', formData);
 
             toast.success(
                 "Project Submitted",
                 {
-                    autoClose : 2000,
-                    theme : 'colored'
+                    autoClose: 2000,
+                    theme: "colored"
                 }
             );
 
@@ -51,13 +67,14 @@ function DeveloperSubmitProject() {
                 projectName: "",
                 projectdescription: "",
                 githubUrl: ""
-            })
-            navigate('/developer/MyProjects')
-        }
-        catch (error) {
+            });
+
+            navigate('/developer/MyProjects');
+
+        } catch (error) {
             console.log(
                 error.response?.data || error.message
-            )
+            );
         }
     }
 

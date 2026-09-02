@@ -16,6 +16,22 @@ function AssignedReviews() {
     const [searchLoading, setSearchLoading] = useState(false)
 
     const getAssignedReviews = async (isSearch = false) => {
+
+        const guest = localStorage.getItem("guest");
+
+        if (guest) {
+            toast.warning(
+                "Please login to access Assigned Reviews.",
+                {
+                    autoClose: 2000,
+                    theme: "colored"
+                }
+            );
+
+            setloading(false);
+            return;
+        }
+
         if (isSearch) {
             setSearchLoading(true)
         } else {
@@ -23,17 +39,21 @@ function AssignedReviews() {
         }
 
         setError('')
+
         try {
             await new Promise((resolve) =>
                 setTimeout(resolve, 2000)
             );
-            const response = await api.get(`/reviwe/AssignedReviews?search=${search}&page=${page}&sort=${sort}`
+
+            const response = await api.get(
+                `/reviwe/AssignedReviews?search=${search}&page=${page}&sort=${sort}`
             );
+
             setProjects(response.data.projects);
             setTotalPages(response.data.totalPages);
-        }
-        catch (error) {
-            console.log(error.response.data);
+
+        } catch (error) {
+            console.log(error.response?.data);
         }
         finally {
             if (isSearch) {

@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import api from "../../services/api";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 
 function ReviewManagement() {
@@ -11,7 +13,10 @@ function ReviewManagement() {
     const [sort, setSort] = useState("newest");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-    const [searchLoading, setSearchLoading] = useState(false)
+    const [searchLoading, setSearchLoading] = useState(false);
+    const { user } = useContext(AuthContext);
+    const isGuest = user?.guest === true;
+    const guestSessionId = sessionStorage.getItem("guestSessionId");
 
     const allReviews = async (isSearch = false) => {
         if (isSearch) {
@@ -25,7 +30,13 @@ function ReviewManagement() {
             await new Promise((resolve) =>
                 setTimeout(resolve, 2000)
             );
-            const response = await api.get(`/reviwe/allReview?search=${search}&page=${page}&sort=${sort}`);
+            const response = isGuest
+                ? await api.get(
+                    `/guest/admin/reviews/${guestSessionId}?search=${search}&page=${page}&sort=${sort}`
+                )
+                : await api.get(
+                    `/reviwe/allReview?search=${search}&page=${page}&sort=${sort}`
+                );
             setReviews(
                 response.data.allReview
             );

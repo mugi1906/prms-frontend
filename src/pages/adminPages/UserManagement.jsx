@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { User } from 'lucide-react';
 import api from '../../services/api';
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 
 
@@ -14,7 +16,10 @@ function UserManagement() {
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-    const [searchLoading, setSearchLoading] = useState(false)
+    const [searchLoading, setSearchLoading] = useState(false);
+    const { user } = useContext(AuthContext);
+    const isGuest = user?.guest === true;
+    const guestSessionId = sessionStorage.getItem("guestSessionId");
 
     const getUsers = async (isSearch = false) => {
         if (isSearch) {
@@ -27,7 +32,13 @@ function UserManagement() {
             await new Promise((resolve) =>
                 setTimeout(resolve, 2000)
             );
-            const response = await api.get(`/admin/allUser?search=${search}&role=${role}&page=${page}&sort=${sort}`);
+            const response = isGuest
+                ? await api.get(
+                    `/guest/admin/users/${guestSessionId}?search=${search}&role=${role}&page=${page}&sort=${sort}`
+                )
+                : await api.get(
+                    `/admin/allUser?search=${search}&role=${role}&page=${page}&sort=${sort}`
+                );
             setUsers(
                 response.data.users
             );
@@ -53,14 +64,39 @@ function UserManagement() {
 
 
     const userDelete = async (id) => {
+
         try {
-            const respone = await api.delete(`/admin/userDelete/${id}`);
-            getUsers();
-            alert("delete success")
+
+            if (isGuest) {
+
+                await api.delete(
+                    `/guest/admin/users/${guestSessionId}/${id}`
+                );
+
+            } else {
+
+                await api.delete(
+                    `/admin/userDelete/${id}`
+                );
+
+            }
+
+            await getUsers();
+
+            alert(
+                isGuest
+                    ? "Demo user deleted"
+                    : "Delete success"
+            );
+
         } catch (error) {
-            console.log(error.respone.data)
+
+            console.log(
+                error.response?.data || error.message
+            );
+
         }
-    }
+    };
 
     useEffect(() => {
         getUsers(false);

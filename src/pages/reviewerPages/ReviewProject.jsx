@@ -25,30 +25,44 @@ function ReviewProject() {
 
   const updateReview = async (status) => {
 
+    const guestSession = localStorage.getItem("guestSession");
+
+    if (guestSession) {
+      toast.warning(
+        "Please login to submit a review",
+        {
+          autoClose: 2000,
+          theme: "colored"
+        }
+      );
+      return;
+    }
+
     try {
-      const response = await api.post(`/reviwe/createReview`,
+
+      const response = await api.post(
+        `/reviwe/createReview`,
         {
           projectId: id,
           comments: comments,
           status: status
         }
-      )
+      );
 
-      console.log(response.data);
-
-      toast.success("Review Successfully Submited",
+      toast.success(
+        "Review Successfully Submitted",
         {
           autoClose: 2000,
           theme: "colored"
         }
-      )
-      navigate(-1)
+      );
 
+      navigate(-1);
 
     } catch (error) {
       console.log(error.response?.data);
     }
-  }
+  };
 
   useEffect(() => {
     getProject();

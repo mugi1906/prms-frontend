@@ -46,18 +46,35 @@ function ReviewHistory() {
     }
 
     const historyDelete = async (id) => {
-        try {
-            const respone = await api.delete(`/reviwe/deleteReview/${id}`);
-            getReviewHistory();
-            toast.success(
-                "delete Success",
+
+        const guestSession = localStorage.getItem("guestSession");
+
+        if (guestSession) {
+            toast.warning(
+                "Please login to delete a review",
                 {
                     autoClose: 2000,
                     theme: "colored"
                 }
             );
+            return;
+        }
+
+        try {
+            const response = await api.delete(`/reviwe/deleteReview/${id}`);
+
+            getReviewHistory();
+
+            toast.success(
+                "Delete Success",
+                {
+                    autoClose: 2000,
+                    theme: "colored"
+                }
+            );
+
         } catch (error) {
-            console.log(error.message)
+            console.log(error.response?.data || error.message);
         }
     }
 

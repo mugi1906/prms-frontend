@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import api from '../../services/api'
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 
 function ProjectManagement() {
@@ -13,7 +15,10 @@ function ProjectManagement() {
     const [totalPages, setTotalPages] = useState(1);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-    const [searchLoading, setSearchLoading] = useState(false)
+    const [searchLoading, setSearchLoading] = useState(false);
+    const { user } = useContext(AuthContext);
+    const isGuest = user?.guest === true;
+    const guestSessionId = sessionStorage.getItem("guestSessionId");
 
     const getProjects = async (isSearch = false) => {
         if (isSearch) {
@@ -26,7 +31,13 @@ function ProjectManagement() {
             await new Promise((resolve) =>
                 setTimeout(resolve, 2000)
             );
-            const response = await api.get(`/project/allProject?search=${search}&page=${page} &sort=${sort}`);
+            const response = isGuest
+                ? await api.get(
+                    `/guest/admin/projects/${guestSessionId}?search=${search}&page=${page}&sort=${sort}`
+                )
+                : await api.get(
+                    `/project/allProject?search=${search}&page=${page}&sort=${sort}`
+                );
 
             setProjects(
                 response.data.project

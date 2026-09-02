@@ -3,7 +3,9 @@ import { ArrowLeft } from 'lucide-react';
 import api from "../../services/api";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast, ToastContainer } from "react-toastify";
-import "../../style/Project.css"
+import "../../style/Project.css";
+import { useContext } from "react";
+import { AuthContext } from "../../context/AuthContext";
 
 
 function AssingedReviewer() {
@@ -13,7 +15,10 @@ function AssingedReviewer() {
     const [reviewers, setReviewers] = useState([]);
     const [reviewerId, setReviewerId] = useState("");
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState('')
+    const [error, setError] = useState('');
+    const { user } = useContext(AuthContext);
+    const isGuest = user?.guest === true;
+    const guestSessionId = sessionStorage.getItem("guestSessionId");
 
 
     const getProject = async () => {
@@ -23,8 +28,19 @@ function AssingedReviewer() {
             await new Promise((resolve) =>
                 setTimeout(resolve, 2000)
             );
-            const response = await api.get(`/project/singleProject/${id}`);
-            setProject(response.data);
+            const response = isGuest
+                ? await api.get(`/guest/admin/projects/${guestSessionId}?search=&page=1&sort=newest`)
+                : await api.get(`/project/singleProject/${id}`);
+
+            if (isGuest) {
+                const guestProject = response.data.project.find(
+                    project => project._id === id
+                );
+
+                setProject(guestProject);
+            } else {
+                setProject(response.data);
+            }
         }
         catch (error) {
             console.log(error.response.data);
@@ -36,11 +52,14 @@ function AssingedReviewer() {
 
     const getReviewers = async () => {
         try {
-            const response = await api.get("admin/allUser");
+            const response = isGuest
+                ? await api.get(`/guest/admin/users/${guestSessionId}`)
+                : await api.get("/admin/allUser");
 
             const reviewerList = response.data.users.filter(
                 user => user.role === "reviewer"
             );
+
             setReviewers(reviewerList);
         }
         catch (error) {
@@ -62,11 +81,19 @@ function AssingedReviewer() {
         }
 
         try {
-            const response = await api.put(`/project/assignReviewer/${id}`,
-                {
-                    reviewerId
-                }
-            );
+            const response = isGuest
+                ? await api.put(
+                    `/guest/admin/projects/${guestSessionId}/${id}/assignReviewer`,
+                    {
+                        reviewerId
+                    }
+                )
+                : await api.put(
+                    `/project/assignReviewer/${id}`,
+                    {
+                        reviewerId
+                    }
+                );
 
             toast.success(
                 "Reviewer Assigned Successfully",
@@ -113,70 +140,70 @@ function AssingedReviewer() {
 
         <div className="assign-reviewer-page">
 
-    <div className="assign-header">
+            <div className="assign-header">
 
-        <button
-            className="assign-back-btn"
-            onClick={() => navigate(-1)}
-        >
-            <ArrowLeft />
-        </button>
+                <button
+                    className="assign-back-btn"
+                    onClick={() => navigate(-1)}
+                >
+                    <ArrowLeft />
+                </button>
 
-        <h1 className="assign-title">
-            Assign Reviewer
-        </h1>
+                <h1 className="assign-title">
+                    Assign Reviewer
+                </h1>
 
-    </div>
+            </div>
 
-    <div className="project-table-card assign-card">
+            <div className="project-table-card assign-card">
 
-        {project && (
-            <>
-                <h3 className="project-name">
-                    Project: {project.projectName}
-                </h3>
+                {project && (
+                    <>
+                        <h3 className="project-name">
+                            Project: {project.projectName}
+                        </h3>
 
-                <p className="project-desc">
-                    {project.projectdescription}
-                </p>
-            </>
-        )}
+                        <p className="project-desc">
+                            {project.projectdescription}
+                        </p>
+                    </>
+                )}
 
-        <div className="assign-form">
+                <div className="assign-form">
 
-            <label className="assign-label">
-                Select a Reviewer
-            </label>
+                    <label className="assign-label">
+                        Select a Reviewer
+                    </label>
 
-            <select
-                className="assign-select"
-                onChange={(e)=>setReviewerId(e.target.value)}
-            >
-                <option value="">-- Choose a Reviewer --</option>
-
-                {reviewers.map((reviewer)=>(
-                    <option
-                        key={reviewer._id}
-                        value={reviewer._id}
+                    <select
+                        className="assign-select"
+                        onChange={(e) => setReviewerId(e.target.value)}
                     >
-                        {reviewer.name} ({reviewer.email})
-                    </option>
-                ))}
+                        <option value="">-- Choose a Reviewer --</option>
 
-            </select>
+                        {reviewers.map((reviewer) => (
+                            <option
+                                key={reviewer._id}
+                                value={reviewer._id}
+                            >
+                                {reviewer.name} ({reviewer.email})
+                            </option>
+                        ))}
 
-            <button
-                className="assign-btn"
-                onClick={assignReviewer}
-            >
-                Confirm Assignment
-            </button>
+                    </select>
+
+                    <button
+                        className="assign-btn"
+                        onClick={assignReviewer}
+                    >
+                        Confirm Assignment
+                    </button>
+
+                </div>
+
+            </div>
 
         </div>
-
-    </div>
-
-</div>
 
     )
 
