@@ -21,24 +21,38 @@ export const AuthProvider = ({ children }) => {
             token
         );
 
+        sessionStorage.removeItem("guestSessionId");
+        sessionStorage.removeItem("guestRole");
+        sessionStorage.removeItem("isGuest");
+
         setUser(userData);
     };
 
-    const guestLogin = (userData, sessionId, role) => {
+
+    const guestLogin = async (role = "admin") => {
+
+        const response = await api.post(
+            "/guest/start",
+            {
+                role: role
+            }
+        );
+
+        const guestData = response.data;
 
         sessionStorage.setItem(
             "user",
-            JSON.stringify(userData)
+            JSON.stringify(guestData.user)
         );
 
         sessionStorage.setItem(
             "guestSessionId",
-            sessionId
+            guestData.sessionId
         );
 
         sessionStorage.setItem(
             "guestRole",
-            role
+            guestData.role
         );
 
         sessionStorage.setItem(
@@ -46,8 +60,13 @@ export const AuthProvider = ({ children }) => {
             "true"
         );
 
-        setUser(userData);
+        sessionStorage.removeItem("token");
+
+        setUser(guestData.user);
+
+        return guestData;
     };
+
 
     const logOut = async () => {
 
@@ -62,9 +81,11 @@ export const AuthProvider = ({ children }) => {
                     sessionStorage.getItem("guestSessionId");
 
                 if (sessionId) {
+
                     await api.delete(
                         `/guest/end/${sessionId}`
                     );
+
                 }
 
             } else {
@@ -88,10 +109,13 @@ export const AuthProvider = ({ children }) => {
             sessionStorage.removeItem("isGuest");
 
             setUser(null);
+
         }
     };
 
+
     return (
+
         <AuthContext.Provider
             value={{
                 user,
@@ -100,7 +124,11 @@ export const AuthProvider = ({ children }) => {
                 logOut
             }}
         >
+
             {children}
+
         </AuthContext.Provider>
+
     );
+
 };
