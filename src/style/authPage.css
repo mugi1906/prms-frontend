@@ -163,9 +163,9 @@
 }
 
 
-/* =========================
-   LOGIN HEADING
-========================= */
+
+   /* LOGIN HEADING */
+
 
 .login-heading {
     width: 80%;
@@ -255,9 +255,6 @@
 }
 
 
-/* =========================
-   DEMO LOGIN
-========================= */
 
 .demo-login {
     width: 80%;
@@ -293,9 +290,9 @@
 }
 
 
-/* =========================
-   DEMO INFORMATION POPUP
-========================= */
+
+   /* DEMO INFORMATION POPUP */
+
 
 .demo-info-popup {
     position: fixed;
@@ -453,9 +450,9 @@
 }
 
 
-/* =========================
-   PASSWORD FIELD
-========================= */
+
+   /* PASSWORD FIELD */
+
 
 .password-input {
     width: 80%;
@@ -538,9 +535,8 @@
 }
 
 
-/* =========================
-   OLD TOAST
-========================= */
+   /* OLD TOAST */
+
 
 .deactivate-toast {
     position: fixed;
@@ -646,6 +642,8 @@
 }
 
 
+
+
 @keyframes slideToast {
 
     from {
@@ -662,10 +660,37 @@
 
 }
 
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.8;
+}
 
-/* =========================
-   TABLET
-========================= */
+.auth-spinner {
+    width: 18px;
+    height: 18px;
+    border: 3px solid rgba(255, 255, 255, 0.4);
+    border-top: 3px solid #ffffff;
+    border-radius: 50%;
+    display: inline-block;
+    animation: authSpinner 0.7s linear infinite;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+@keyframes authSpinner {
+
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+
+}
+
+   /* TABLET */
+
 
 @media(max-width:1024px) {
 
@@ -689,10 +714,8 @@
 
 }
 
+   /* MOBILE */
 
-/* =========================
-   MOBILE
-========================= */
 
 @media(max-width:768px) {
 
@@ -849,10 +872,6 @@
 
 }
 
-
-/* =========================
-   SMALL MOBILE
-========================= */
 
 @media(max-width:480px) {
 

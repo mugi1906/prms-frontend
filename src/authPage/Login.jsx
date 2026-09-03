@@ -15,7 +15,7 @@ function Login() {
     const [showPassword, setShowPassword] = useState(false);
     const [showDemo, setShowDemo] = useState(false);
     const [showDemoMessage, setShowDemoMessage] = useState(false);
-
+    const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState({
         email: "",
         password: ""
@@ -62,19 +62,21 @@ function Login() {
                     autoClose: 2000,
                     theme: "colored"
                 }
-            )
+            );
 
         }
+
+        setLoading(true);
 
         try {
 
             const response =
-                await api.post('/auth/login', formData)
+                await api.post('/auth/login', formData);
 
             login(
                 response.data.user,
                 response.data.token
-            )
+            );
 
             const role =
                 response.data.user.role;
@@ -87,6 +89,9 @@ function Login() {
                 }
             );
 
+            await new Promise(resolve =>
+                setTimeout(resolve, 2500)
+            );
 
             if (role === "developer") {
 
@@ -103,7 +108,6 @@ function Login() {
                 navigate('/admin/dashboard');
 
             }
-
 
             setFormData({
                 email: "",
@@ -142,7 +146,13 @@ function Login() {
 
         }
 
-    }
+        finally {
+
+            setLoading(false);
+
+        }
+
+    };
 
 
     const handleDemoToggle = () => {
@@ -283,8 +293,18 @@ function Login() {
                             </div>
 
 
-                            <button type="submit">
-                                Login
+                            <button
+                                type="submit"
+                                disabled={loading}
+                            >
+                                {loading ? (
+                                    <>
+                                        <span className="auth-spinner"></span>
+                                        Logging in...
+                                    </>
+                                ) : (
+                                    "Login"
+                                )}
                             </button>
 
                         </form>

@@ -10,6 +10,7 @@ function Register({ switchLogin }) {
 
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -24,19 +25,30 @@ function Register({ switchLogin }) {
   }
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
-    if (!formData.email || !formData.name) {
+
+    if (!formData.email || !formData.name || !formData.password) {
+
       return toast.warning(
         "Please fill all fields",
         {
           autoClose: 2000,
           theme: "colored"
         }
-      )
+      );
+
     }
+
+    setLoading(true);
+
     try {
-      const respone = await api.post('/auth/register', formData)
-      console.log(respone);
+
+      const response =
+        await api.post('/auth/register', formData);
+
+      console.log(response);
+
       toast.success(
         "Register Successfully",
         {
@@ -44,13 +56,42 @@ function Register({ switchLogin }) {
           theme: "colored"
         }
       );
+
+      await new Promise(resolve =>
+        setTimeout(resolve, 2500)
+      );
+
       switchLogin();
-      setFormData("");
+
+      setFormData({
+        name: "",
+        email: "",
+        password: "",
+        role: "developer"
+      });
+
     }
+
     catch (error) {
-      console.log(error.respone?.data);
+
+      console.log(
+        error.response?.data || error.message
+      );
+
+      toast.error(
+        error.response?.data?.message ||
+        "Registration Failed"
+      );
+
     }
-  }
+
+    finally {
+
+      setLoading(false);
+
+    }
+
+  };
 
   return (
     <div>
@@ -106,8 +147,18 @@ function Register({ switchLogin }) {
 
           </select>
 
-          <button>
-            Register
+          <button
+            type="submit"
+            disabled={loading}
+          >
+            {loading ? (
+              <>
+                <span className="auth-spinner"></span>
+                Registering...
+              </>
+            ) : (
+              "Register"
+            )}
           </button>
 
         </form>
