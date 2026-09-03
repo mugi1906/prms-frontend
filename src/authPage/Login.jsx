@@ -152,7 +152,7 @@ function Login() {
     }
 
 
-    const handleGuestLogin = async (role) => {
+    const handleGuestLogin = async (role = "admin") => {
 
         try {
 
@@ -168,17 +168,17 @@ function Login() {
 
             if (role === "admin") {
 
-                navigate('/admin/dashboard');
+                navigate("/admin/dashboard");
 
             }
             else if (role === "developer") {
 
-                navigate('/developer/dashboard');
+                navigate("/developer/dashboard");
 
             }
             else if (role === "reviewer") {
 
-                navigate('/review/dashboard');
+                navigate("/review/dashboard");
 
             }
 
@@ -191,12 +191,13 @@ function Login() {
             );
 
             toast.error(
+                error.response?.data?.message ||
                 "Unable to start guest demo"
             );
 
         }
 
-    }
+    };
 
 
     return (
@@ -304,29 +305,21 @@ function Login() {
 
                             <button
                                 type="button"
-                                onClick={() =>
-                                    handleGuestLogin("admin")
-                                }
+                                onClick={() => handleGuestLogin("admin")}
                             >
                                 Admin Demo
                             </button>
 
-
                             <button
                                 type="button"
-                                onClick={() =>
-                                    handleGuestLogin("developer")
-                                }
+                                onClick={() => handleGuestLogin("developer")}
                             >
                                 Developer Demo
                             </button>
 
-
                             <button
                                 type="button"
-                                onClick={() =>
-                                    handleGuestLogin("reviewer")
-                                }
+                                onClick={() => handleGuestLogin("reviewer")}
                             >
                                 Reviewer Demo
                             </button>
