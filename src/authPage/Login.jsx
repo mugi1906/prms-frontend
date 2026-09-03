@@ -156,31 +156,15 @@ function Login() {
 
         try {
 
-            const response =
-                await api.post(
-                    '/guest/start',
-                    {
-                        role
-                    }
-                );
-
-
-            guestLogin(
-                response.data.user,
-                response.data.sessionId,
-                role
-            );
-
+            const guestData = await guestLogin(role);
 
             toast.success(
                 `Guest ${role} demo started`,
                 {
                     autoClose: 1500,
-                    theme: "colored",
-                    
+                    theme: "colored"
                 }
             );
-
 
             if (role === "admin") {
 
@@ -199,12 +183,11 @@ function Login() {
             }
 
         }
-
         catch (error) {
 
             console.log(
                 "GUEST LOGIN ERROR:",
-                error.response?.data
+                error.response?.data || error.message
             );
 
             toast.error(
